@@ -9,9 +9,12 @@ class MainWindowApp:
         self.frm_menu = ttk.Frame(self.frm_main_window)
         self.frm_menu.configure(height='30', width='1024')
         self.frm_menu.grid(sticky='nsew')
-        self.frm_menu.rowconfigure('0', minsize='30', uniform='None', weight='0')
-        self.frm_menu.columnconfigure('0', minsize='0', uniform='None', weight='1')
-        self.main_window = ttk.Panedwindow(self.frm_main_window, orient='horizontal')
+        self.frm_menu.rowconfigure('0', minsize='30', uniform='None',
+                                   weight='0')
+        self.frm_menu.columnconfigure('0', minsize='0', uniform='None',
+                                      weight='1')
+        self.main_window = ttk.Panedwindow(self.frm_main_window,
+                                           orient='horizontal')
         self.frm_manouver_list = ttk.Frame(self.main_window)
         self.manouver_list = ttk.Treeview(self.frm_manouver_list)
         self.manouver_list.grid(sticky='nsew')
@@ -22,8 +25,10 @@ class MainWindowApp:
         self.frm_manouver_list.rowconfigure('0', weight='1')
         self.frm_manouver_list.columnconfigure('0', weight='1')
         self.main_window.add(self.frm_manouver_list, weight='0')
-        self.content_container_window = ttk.Panedwindow(self.main_window, orient='vertical')
-        self.content_window_top = ttk.Panedwindow(self.content_container_window, orient='horizontal')
+        self.content_container_window = ttk.Panedwindow(self.main_window,
+                                                        orient='vertical')
+        self.content_window_top = ttk.Panedwindow(
+            self.content_container_window, orient='horizontal')
         self.frm_map_view = ttk.Frame(self.content_window_top)
         self.frm_map_view_menu = ttk.Frame(self.frm_map_view)
         self.frm_map_view_menu.configure(height='30', width='200')
@@ -45,7 +50,8 @@ class MainWindowApp:
         self.content_window_top.configure(height='300', width='900')
         self.content_window_top.pack(side='top')
         self.content_container_window.add(self.content_window_top, weight='1')
-        self.content_window_bottom = ttk.Panedwindow(self.content_container_window, orient='horizontal')
+        self.content_window_bottom = ttk.Panedwindow(
+            self.content_container_window, orient='horizontal')
         self.frm_vessel = ttk.Frame(self.content_window_bottom)
         self.frm_vessel_menu = ttk.Frame(self.frm_vessel)
         self.frm_vessel_menu.configure(height='30', width='200')
@@ -78,7 +84,8 @@ class MainWindowApp:
         self.content_window_bottom.add(self.frm_manouver, weight='1')
         self.content_window_bottom.configure(height='300', width='900')
         self.content_window_bottom.pack(side='top')
-        self.content_container_window.add(self.content_window_bottom, weight='1')
+        self.content_container_window.add(self.content_window_bottom,
+                                          weight='1')
         self.content_container_window.configure(height='200', width='900')
         self.content_container_window.pack(side='top')
         self.main_window.add(self.content_container_window, weight='1')
@@ -86,7 +93,8 @@ class MainWindowApp:
         self.main_window.grid(padx='10', pady='10', row='1', sticky='nsew')
         self.main_window.rowconfigure('0', weight='1')
         self.main_window.rowconfigure('1', uniform='None', weight='1000')
-        self.main_window.columnconfigure('0', minsize='0', uniform='None', weight='1')
+        self.main_window.columnconfigure('0', minsize='0', uniform='None',
+                                         weight='1')
         self.frm_main_window.configure(height='600', width='1024')
         self.frm_main_window.grid(sticky='nsew')
         self.frm_main_window.rowconfigure('0', weight='1')
@@ -95,13 +103,11 @@ class MainWindowApp:
         # Main widget
         self.mainwindow = self.frm_main_window
 
-
     def run(self):
         self.mainwindow.mainloop()
 
+
 if __name__ == '__main__':
-    import tkinter as tk
     root = tk.Tk()
     app = MainWindowApp(root)
     app.run()
-
