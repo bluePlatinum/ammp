@@ -1,4 +1,4 @@
-import AMMP.physics.bodies as bodies
+import ammp.physics.bodies as bodies
 
 import numpy as np
 import random
