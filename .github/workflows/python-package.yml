@@ -28,7 +28,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install flake8 pytest
-        pip install -r ./src/requirements.txt
+        pip install -r ./ammp/requirements.txt
         pip install -r ./tests/requirements.txt
     - name: Lint with flake8
       run: |
