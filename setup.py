@@ -5,7 +5,6 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="ammp",
-    version="0.0.2",
     author="bluePlatinum",
     author_email="jukic.rok@gmail.com",
     description="Mission Planner for KSP",
