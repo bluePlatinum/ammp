@@ -10,10 +10,13 @@ import random
 
 
 @pytest.fixture
-def quat_set_1():
-    quat = np.random.rand(4)
-    test_object = util.Quat(quat)
-    return [(quat, test_object)]
+def quat_set_random():
+    testset = list()
+    for i in range(3):
+        quat = np.random.rand(4)
+        test_object = util.Quat(quat)
+        testset.append((quat, test_object))
+    return testset
 
 
 @pytest.fixture
@@ -83,6 +86,14 @@ class TestQuat:
         test_object = util.Quat.from_angle_axis(angle, axis)
 
         assert test_object._quat.all() == expected.all()
+
+    def test_as_array(self, quat_set_random):
+        """
+        Test Quat.as_array method with random values.
+        :return:
+        """
+        for test in quat_set_random:
+            assert test[1].as_array().all() == test[0].all()
 
 
 

@@ -35,5 +35,14 @@ class Quat:
         quat = np.array([*(np.sin(angle) * axis), np.cos(angle)])
         return cls(quat)
 
-    # TODO: create as_vector() method
+    def as_array(self):
+        """
+        Returns the Quaternion represented as an array of the form
+        (x, y, z, Re).
+
+        :return: array representing the Quat
+        :rtype: numpy.ndarray
+        """
+        return self._quat
+
     # TODO: create as_angle_axis() method
