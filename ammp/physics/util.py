@@ -1,3 +1,4 @@
+import math
 import numpy as np
 
 
@@ -37,7 +38,7 @@ class Quat:
 
     def as_array(self):
         """
-        Returns the Quaternion represented as an array of the form
+        Returns the quaternion represented as an array of the form
         (x, y, z, Re).
 
         :return: array representing the Quat
@@ -45,4 +46,17 @@ class Quat:
         """
         return self._quat
 
-    # TODO: create as_angle_axis() method
+    def as_angle_axis(self):
+        """
+        Returns the Quaternion represented as a tuple of angle in radians and
+        axis-vector (angle, axis).
+
+        :return: A tuple of the angle and axis representing the quaternion
+        :rtype: (float, numpy.ndarray)
+        """
+        angle = np.arccos(self._quat[3])
+        if math.sin(angle) != 0:
+            axis = self._quat[:3] / math.sin(angle)
+        else:
+            axis = np.array([0, 0, 0])
+        return angle, axis
