@@ -106,7 +106,7 @@ class TestQuat:
             test_object = util.Quat.from_angle_axis(*test[0])
             angle_axis = test_object.as_angle_axis()
 
-            assert angle_axis[0] == test[0][0]
+            assert math.isclose(angle_axis[0], test[0][0], rel_tol=1e-12)
             if angle_axis[0] != 0:
                 assert angle_axis[1].all() == test[0][1].all()
 
