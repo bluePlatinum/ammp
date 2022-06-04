@@ -10,10 +10,15 @@ class Reference:
     :type position: Numpy array
     :param rotation: To rotation of the reference expressed
     :tpye position: scipy rotation
+    :param parent_reference: The parent reference of the reference. This is the
+        frame of reference in which the position and rotation of this
+        Reference is defined.
+    :type parent_reference: Reference
     """
-    def __init__(self, position, rotation):
+    def __init__(self, position, rotation, parent_reference):
         """
         Constructor method
         """
         self.position = position
         self.rotation = rotation
+        self.parent_reference = parent_reference
