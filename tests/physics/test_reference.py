@@ -80,16 +80,16 @@ class TestCartesianReference:
 
     def test_transform_to(self, system_set_static):
         """
-        Test the CartesianReferenec.transform_to method with a static system.
+        Test the CartesianReferenec.ref_transform_to method with a static system.
         """
         references = system_set_static
         vector = np.array([3, 4, 5])
-        expected_root = vector
+        expected_r = vector
         expected_1 = np.array([2, 4.94974747, 2.12132034])
         expected_2 = np.array([4, -3, 2])
         expected_3 = np.array([4, -3, 2])
 
-        assert references[0].transform_to(vector).all() == expected_root.all()
-        assert references[1].transform_to(vector).all() == expected_1.all()
-        assert references[2].transform_to(vector).all() == expected_2.all()
-        assert references[3].transform_to(vector).all() == expected_3.all()
+        assert references[0].ref_transform_to(vector).all() == expected_r.all()
+        assert references[1].ref_transform_to(vector).all() == expected_1.all()
+        assert references[2].ref_transform_to(vector).all() == expected_2.all()
+        assert references[3].ref_transform_to(vector).all() == expected_3.all()
