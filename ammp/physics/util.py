@@ -50,6 +50,7 @@ class Quat:
         """
         Returns the Quaternion represented as a tuple of angle in radians and
         axis-vector (angle, axis).
+        !!WARNING!!: This is only tested for angles up to 180°
 
         :return: A tuple of the angle and axis representing the quaternion
         :rtype: (float, numpy.ndarray)

@@ -58,7 +58,7 @@ class TestReference:
         rotation = Rotation.from_matrix(np.random.rand(3, 3))
         ref = reference.Reference(position, rotation, root_reference)
 
-        assert ref.position.all() == position.all()
+        assert (ref.position == position).all()
         assert ref.rotation == rotation
         assert ref.parent_reference == root_reference
 
@@ -72,7 +72,7 @@ class TestCartesianReference:
         rotation = Rotation.from_matrix(np.random.rand(3, 3))
         ref = reference.Reference(position, rotation, root_reference)
 
-        assert ref.position.all() == position.all()
+        assert (ref.position == position).all()
         assert ref.rotation == rotation
         assert ref.parent_reference == root_reference
 
@@ -88,10 +88,14 @@ class TestCartesianReference:
         expected_2 = np.array([4, -3, 2])
         expected_3 = np.array([4, -3, 2])
 
-        assert references[0].ref_transform_to(vector).all() == expected_r.all()
-        assert references[1].ref_transform_to(vector).all() == expected_1.all()
-        assert references[2].ref_transform_to(vector).all() == expected_2.all()
-        assert references[3].ref_transform_to(vector).all() == expected_3.all()
+        assert np.allclose(references[0].ref_transform_to(vector), expected_r,
+                           1e-12)
+        assert np.allclose(references[1].ref_transform_to(vector), expected_1,
+                           1e-12)
+        assert np.allclose(references[2].ref_transform_to(vector), expected_2,
+                           1e-12)
+        assert np.allclose(references[3].ref_transform_to(vector), expected_3,
+                           1e-12)
 
     def test_transform_from(self, system_set_static):
         """
@@ -105,10 +109,14 @@ class TestCartesianReference:
         vector_2 = np.array([4, -3, 2])
         vector_3 = np.array([4, -3, 2])
 
-        assert references[0].ref_transform_from(vector_r).all() == expec.all()
-        assert references[1].ref_transform_from(vector_1).all() == expec.all()
-        assert references[2].ref_transform_from(vector_2).all() == expec.all()
-        assert references[3].ref_transform_from(vector_3).all() == expec.all()
+        assert np.allclose(references[0].ref_transform_from(vector_r), expec,
+                           1e-12)
+        assert np.allclose(references[1].ref_transform_from(vector_1), expec,
+                           1e-12)
+        assert np.allclose(references[2].ref_transform_from(vector_2), expec,
+                           1e-12)
+        assert np.allclose(references[3].ref_transform_from(vector_3), expec,
+                           1e-12)
 
     def test_transform_bidirectional(self, system_set_static):
         """
@@ -123,7 +131,11 @@ class TestCartesianReference:
         trans_2 = references[2].ref_transform_to(vector)
         trans_3 = references[3].ref_transform_to(vector)
 
-        assert references[0].ref_transform_from(trans_r).all() == vector.all()
-        assert references[1].ref_transform_from(trans_1).all() == vector.all()
-        assert references[2].ref_transform_from(trans_2).all() == vector.all()
-        assert references[3].ref_transform_from(trans_3).all() == vector.all()
+        assert np.allclose(references[0].ref_transform_from(trans_r), vector,
+                           1e-12)
+        assert np.allclose(references[1].ref_transform_from(trans_1), vector,
+                           1e-12)
+        assert np.allclose(references[2].ref_transform_from(trans_2), vector,
+                           1e-12)
+        assert np.allclose(references[3].ref_transform_from(trans_3), vector,
+                           1e-12)

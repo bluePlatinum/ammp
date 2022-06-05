@@ -14,8 +14,9 @@ def quat_set_random():
     testset = list()
     for i in range(3):
         quat = np.random.rand(4)
+        quat_norm = quat / np.linalg.norm(quat)
         test_object = util.Quat(quat)
-        testset.append((quat, test_object))
+        testset.append((quat_norm, test_object))
     return testset
 
 
@@ -47,9 +48,10 @@ class TestQuat:
         :return: None
         """
         quat = np.random.rand(4)
+        quat_norm = quat / np.linalg.norm(quat)
         test_object = util.Quat(quat)
 
-        assert test_object._quat.all() == quat.all()
+        assert np.allclose(test_object._quat, quat_norm, rtol=1e-12)
 
     def test_constructor_normalization(self):
         """
@@ -61,7 +63,7 @@ class TestQuat:
         quat_norm = quat / np.linalg.norm(quat)
         test_object = util.Quat(quat)
 
-        assert test_object._quat.all() == quat_norm.all()
+        assert np.allclose(test_object._quat, quat_norm, rtol=1e-12)
 
     def test_from_angle_axis_static(self, quat_set_angle_static):
         """
@@ -71,7 +73,7 @@ class TestQuat:
         """
         for test in quat_set_angle_static:
             test_object = util.Quat.from_angle_axis(*test[0])
-            assert test_object._quat.all() == test[1].all()
+            assert np.allclose(test_object._quat, test[1], rtol=1e-12)
 
     def test_from_anggle_axis_random(self):
         """
@@ -85,7 +87,7 @@ class TestQuat:
         expected = np.array([*(np.sin(angle) * axis_norm), np.cos(angle)])
         test_object = util.Quat.from_angle_axis(angle, axis)
 
-        assert test_object._quat.all() == expected.all()
+        assert np.allclose(test_object._quat, expected, rtol=1e-12)
 
     def test_as_array(self, quat_set_random):
         """
@@ -94,7 +96,7 @@ class TestQuat:
         :return: None
         """
         for test in quat_set_random:
-            assert test[1].as_array().all() == test[0].all()
+            assert np.allclose(test[1].as_array(), test[0], rtol=1e-12)
 
     def test_as_angle_axis_static(self, quat_set_angle_static):
         """
@@ -108,7 +110,8 @@ class TestQuat:
 
             assert math.isclose(angle_axis[0], test[0][0], rel_tol=1e-12)
             if angle_axis[0] != 0:
-                assert angle_axis[1].all() == test[0][1].all()
+                test_norm = test[0][1] / np.linalg.norm(test[0][1])
+                assert np.allclose(angle_axis[1], test_norm, rtol=1e-12)
 
     def test_as_angle_axis_random(self):
         """
@@ -116,7 +119,7 @@ class TestQuat:
 
         :return: None
         """
-        angle = random.random() * 2 * np.pi
+        angle = random.random() * np.pi
         angle_expected = np.arccos(np.cos(angle))  # expected angle in 0-2pi
         axis = np.random.rand(3)
         axis_norm = axis / np.linalg.norm(axis)
@@ -125,4 +128,4 @@ class TestQuat:
 
         assert math.isclose(angle_axis[0], angle_expected, rel_tol=1e-12)
         if angle != 0:
-            assert angle_axis[1].all() == axis_norm.all()
+            assert np.allclose(angle_axis[1], axis_norm, rtol=1e-12)
