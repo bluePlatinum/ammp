@@ -43,6 +43,18 @@ class CartesianReference(Reference):
         """
         super().__init__(position, rotation, parent_reference)
 
+    def ref_transform_from(self, vector):
+        """
+        Transforms a vector expressed in this frame of reference into the
+        parent frame of reference.
+
+        :param vector: the vector to be transformed (this frame of reference)
+        :type vector: numpy.ndarray
+        :return: transformed vector
+        :rtype: numpy.ndarray
+        """
+        return self.rotation.apply(vector) + self.position
+
     def ref_transform_to(self, vector):
         """
         Transforms a vector expressed in the parent frame of reference to this
@@ -55,15 +67,3 @@ class CartesianReference(Reference):
         """
         inverse = self.rotation.inv()
         return inverse.apply(vector - self.position)
-
-    def ref_transform_from(self, vector):
-        """
-        Transforms a vector expressed in this frame of reference into the
-        parent frame of reference.
-
-        :param vector: the vector to be transformed (this frame of reference)
-        :type vector: numpy.ndarray
-        :return: transformed vector
-        :rtype: numpy.ndarray
-        """
-        return self.rotation.apply(vector) + self.position
