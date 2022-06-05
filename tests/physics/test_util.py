@@ -126,4 +126,3 @@ class TestQuat:
         assert math.isclose(angle_axis[0], angle_expected, rel_tol=1e-12)
         if angle != 0:
             assert angle_axis[1].all() == axis_norm.all()
-

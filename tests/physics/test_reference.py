@@ -53,7 +53,6 @@ class TestReference:
     def test_constructor(self, root_reference):
         """
         Test the constructor of the physics.Reference class
-        :return: None
         """
         position = np.random.rand(3)
         rotation = Rotation.from_matrix(np.random.rand(3, 3))
@@ -68,7 +67,6 @@ class TestCartesianReference:
     def test_constructor(self, root_reference):
         """
         Test the constructor of the physics.CartesianReference class
-        :return: None
         """
         position = np.random.rand(3)
         rotation = Rotation.from_matrix(np.random.rand(3, 3))
@@ -80,7 +78,8 @@ class TestCartesianReference:
 
     def test_transform_to(self, system_set_static):
         """
-        Test the CartesianReferenec.ref_transform_to method with a static system.
+        Test the CartesianReferenec.ref_transform_to method with a static
+        system.
         """
         references = system_set_static
         vector = np.array([3, 4, 5])
@@ -93,3 +92,38 @@ class TestCartesianReference:
         assert references[1].ref_transform_to(vector).all() == expected_1.all()
         assert references[2].ref_transform_to(vector).all() == expected_2.all()
         assert references[3].ref_transform_to(vector).all() == expected_3.all()
+
+    def test_transform_from(self, system_set_static):
+        """
+        Test the CartesianReference.ref_transform_from method with a static
+        system.
+        """
+        references = system_set_static
+        expec = np.array([3, 4, 5])
+        vector_r = expec
+        vector_1 = np.array([2, 4.94974747, 2.12132034])
+        vector_2 = np.array([4, -3, 2])
+        vector_3 = np.array([4, -3, 2])
+
+        assert references[0].ref_transform_from(vector_r).all() == expec.all()
+        assert references[1].ref_transform_from(vector_1).all() == expec.all()
+        assert references[2].ref_transform_from(vector_2).all() == expec.all()
+        assert references[3].ref_transform_from(vector_3).all() == expec.all()
+
+    def test_transform_bidirectional(self, system_set_static):
+        """
+        Test the CartesianReference.ref_transform_to and .ref_transform_from
+        methods by transforming a vector into and back from a reference.
+        """
+        references = system_set_static
+        vector = np.random.rand(3)
+
+        trans_r = references[0].ref_transform_to(vector)
+        trans_1 = references[1].ref_transform_to(vector)
+        trans_2 = references[2].ref_transform_to(vector)
+        trans_3 = references[3].ref_transform_to(vector)
+
+        assert references[0].ref_transform_from(trans_r).all() == vector.all()
+        assert references[1].ref_transform_from(trans_1).all() == vector.all()
+        assert references[2].ref_transform_from(trans_2).all() == vector.all()
+        assert references[3].ref_transform_from(trans_3).all() == vector.all()
