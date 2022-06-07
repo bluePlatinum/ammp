@@ -89,7 +89,7 @@ class TestReference:
 
     def test_ref_transform_from(self, root_reference):
         """
-        Tests the Reference.ref_tranform_from method. By default this should
+        Tests the Reference.ref_tranform_from method. By default, this should
         throw an error when beeing called.
         """
         position = np.random.rand(3)
@@ -101,7 +101,7 @@ class TestReference:
 
     def test_ref_tranform_to(self, root_reference):
         """
-        Tests the Reference.ref_tranform_to method. By default this should
+        Tests the Reference.ref_tranform_to method. By default, this should
         throw an error when beeing called.
         """
         position = np.random.rand(3)
