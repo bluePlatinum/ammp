@@ -57,6 +57,23 @@ class Reference:
             parent_vector = self.ref_transform_from(vector)
             return self.parent_reference.root_transform_from(parent_vector)
 
+    def root_transform_to(self, vector):
+        """
+        Transforms a vector expressed in the root frame of reference into this
+        frame of reference.
+
+        :param vector: the vector to be transformed (root frame of reference)
+        :type vector: numpy.ndarray
+        :return: transformed vector (this frame of reference)
+        :rtype: numpy.ndarray
+        """
+        # check if parent reference is root
+        if self.parent_reference.parent_reference is None:
+            return self.ref_transform_to(vector)
+        else:
+            parent_vector = self.parent_reference.root_transform_to(vector)
+            return self.ref_transform_to(parent_vector)
+
 
 class CartesianReference(Reference):
     """

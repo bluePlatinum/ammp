@@ -49,6 +49,31 @@ def system_set_static():
     return root_ref, first_ref, second_ref, third_ref, fourth_ref
 
 
+@pytest.fixture
+def random_system():
+    """
+    Generates a system of five linked References with random positions and
+    rotations. Returns the references in a list in ascending order.
+    """
+    # Create root reference
+    position = np.array([0, 0, 0])
+    rotation = Rotation.from_matrix(np.identity(3))
+    root_ref = reference.CartesianReference(position, rotation, None)
+
+    # Create other four references
+    last_ref = root_ref
+    ref_list = [root_ref]
+    for i in range(4):
+        position = np.random.rand(3)
+        rotation = Rotation.from_matrix(np.random.rand(3, 3))
+        ref = reference.CartesianReference(position, rotation, last_ref)
+
+        ref_list.append(ref)
+        last_ref = ref
+
+    return ref_list
+
+
 class TestReference:
     def test_constructor(self, root_reference):
         """
@@ -166,7 +191,7 @@ class TestCartesianReference:
 
     def test_root_transform_from_single(self, system_set_static):
         """
-        Test the Reference.root_transform_from method with random
+        Test the CartesianReference.root_transform_from method with random
         values but static CartisianReferences. This test does not rely on any
         other methods from CartesianReference except the constructor.
         """
@@ -205,3 +230,49 @@ class TestCartesianReference:
                            1e-12)
         assert np.allclose(references[4].root_transform_from(trans_4), vector,
                            1e-12)
+
+    def test_root_transform_to_single(self, system_set_static):
+        """
+        Test the CartesianReference.root_transform_from method with random
+        values but static CartisianReferences. This test does not rely on any
+        other methods from CartesianReference except the constructor.
+        """
+        # root = system_set_static[0]     not needed just for clarity
+        # parent = system_set_static[2]   not needed just for clarity
+        child = system_set_static[4]
+        # The child is the exact inverse of the parent so any vector expressed
+        # in the child reference should be exactly the same as in the root
+        # reference.
+
+        vector = np.random.rand(3)
+        assert np.allclose(child.root_transform_to(vector), vector, 1e-12)
+
+    def test_root_transform_to(self, system_set_static):
+        """
+        Test the CartesianReference.root_transform_to method with random
+        values but static CartesianReferences. This test relies on the validity
+        of the .ref_transform_to method.
+        """
+        references = system_set_static
+        vector = np.random.rand(3)
+
+        trans_3 = references[3].ref_transform_from(vector)
+        trans_2 = references[2].ref_transform_from(trans_3)
+        trans_r = references[0].ref_transform_from(trans_2)
+
+        assert np.allclose(references[3].root_transform_to(trans_r), vector,
+                           1e-12)
+
+    def test_root_transform_bidirectional(self, random_system):
+        """
+        Tests the CartesianReference.root_transform_from and .root_transform_to
+        methods by doing a bidirectional transformation (root -> last -> root)
+        """
+        # root = random_system[0]   not needed just for clarity
+        last = random_system[-1]
+        vector = np.random.rand(3)  # defined in root
+
+        transformed = last.root_transform_to(vector)
+        reverted = last.root_transform_from(transformed)
+
+        assert np.allclose(reverted, vector, 1e-12)
