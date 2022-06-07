@@ -62,6 +62,30 @@ class TestReference:
         assert ref.rotation == rotation
         assert ref.parent_reference == root_reference
 
+    def test_ref_transform_from(self, root_reference):
+        """
+        Tests the Reference.ref_tranform_from method. By default this should
+        throw an error when beeing called.
+        """
+        position = np.random.rand(3)
+        rotation = Rotation.from_matrix(np.random.rand(3, 3))
+        ref = reference.Reference(position, rotation, root_reference)
+
+        with pytest.raises(ValueError):
+            ref.ref_transform_from(np.random.rand(3))
+
+    def test_ref_tranform_to(self, root_reference):
+        """
+        Tests the Reference.ref_tranform_to method. By default this should
+        throw an error when beeing called.
+        """
+        position = np.random.rand(3)
+        rotation = Rotation.from_matrix(np.random.rand(3, 3))
+        ref = reference.Reference(position, rotation, root_reference)
+
+        with pytest.raises(ValueError):
+            ref.ref_transform_to(np.random.rand(3))
+
 
 class TestCartesianReference:
     def test_constructor(self, root_reference):
@@ -76,7 +100,7 @@ class TestCartesianReference:
         assert ref.rotation == rotation
         assert ref.parent_reference == root_reference
 
-    def test_transform_to(self, system_set_static):
+    def test_ref_transform_to(self, system_set_static):
         """
         Test the CartesianReferenec.ref_transform_to method with a static
         system.
@@ -97,7 +121,7 @@ class TestCartesianReference:
         assert np.allclose(references[3].ref_transform_to(vector), expected_3,
                            1e-12)
 
-    def test_transform_from(self, system_set_static):
+    def test_ref_transform_from(self, system_set_static):
         """
         Test the CartesianReference.ref_transform_from method with a static
         system.
@@ -118,7 +142,7 @@ class TestCartesianReference:
         assert np.allclose(references[3].ref_transform_from(vector_3), expec,
                            1e-12)
 
-    def test_transform_bidirectional(self, system_set_static):
+    def test_ref_transform_bidirectional(self, system_set_static):
         """
         Test the CartesianReference.ref_transform_to and .ref_transform_from
         methods by transforming a vector into and back from a reference.
@@ -138,4 +162,46 @@ class TestCartesianReference:
         assert np.allclose(references[2].ref_transform_from(trans_2), vector,
                            1e-12)
         assert np.allclose(references[3].ref_transform_from(trans_3), vector,
+                           1e-12)
+
+    def test_root_transform_from_single(self, system_set_static):
+        """
+        Test the Reference.root_transform_from method with random
+        values but static CartisianReferences. This test does not rely on any
+        other methods from CartesianReference except the constructor.
+        """
+        # root = system_set_static[0]     not needed just for clarity
+        # parent = system_set_static[2]   not needed just for clarity
+        child = system_set_static[4]
+        # The child is the exact inverse of the parent so any vector expressed
+        # in the child reference should be exactly the same as in the root
+        # reference.
+
+        vector = np.random.rand(3)
+        assert np.allclose(child.root_transform_from(vector), vector, 1e-12)
+
+    def test_root_transform_from(self, system_set_static):
+        """
+        Test the CartesianReference.root_transform_from method with random
+        values but static CartesianReferences. This test relies on the validity
+        of the .ref_transform_to method.
+        """
+        references = system_set_static
+        vector = np.random.rand(3)
+
+        trans_r = references[0].ref_transform_to(vector)
+        trans_1 = references[1].ref_transform_to(vector)
+        trans_2 = references[2].ref_transform_to(vector)
+        trans_3 = references[3].ref_transform_to(trans_2)  # parent is ref_2
+        trans_4 = references[4].ref_transform_to(trans_2)  # parent is ref_2
+
+        assert np.allclose(references[0].root_transform_from(trans_r), vector,
+                           1e-12)
+        assert np.allclose(references[1].root_transform_from(trans_1), vector,
+                           1e-12)
+        assert np.allclose(references[2].root_transform_from(trans_2), vector,
+                           1e-12)
+        assert np.allclose(references[3].root_transform_from(trans_3), vector,
+                           1e-12)
+        assert np.allclose(references[4].root_transform_from(trans_4), vector,
                            1e-12)
