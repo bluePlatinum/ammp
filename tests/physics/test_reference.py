@@ -110,7 +110,6 @@ def system_set_static():
     return root_ref, first_ref, second_ref, third_ref, fourth_ref
 
 
-
 class TestReference:
     def test_constructor(self, root_reference):
         """
