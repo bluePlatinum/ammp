@@ -6,6 +6,67 @@ from scipy.spatial.transform import Rotation
 
 
 @pytest.fixture
+def random_split_system():
+    """
+    Generates a system of two split CartesianReference systems with random
+    positions and rotations. Returns the system as a tuple of
+    (root, [first_chain], [second_chain])
+    """
+    position = np.array([0, 0, 0])
+    rotation = Rotation.from_matrix(np.identity(3))
+    root_ref = reference.CartesianReference(position, rotation, None)
+
+    # first chain
+    last_ref = root_ref
+    first_chain = list()
+    for i in range(4):
+        position = np.random.rand(3)
+        rotation = Rotation.from_matrix(np.random.rand(3, 3))
+        ref = reference.CartesianReference(position, rotation, last_ref)
+
+        first_chain.append(ref)
+        last_ref = ref
+
+    # second chain
+    last_ref = root_ref
+    second_chain = list()
+    for i in range(4):
+        position = np.random.rand(3)
+        rotation = Rotation.from_matrix(np.random.rand(3, 3))
+        ref = reference.CartesianReference(position, rotation, last_ref)
+
+        second_chain.append(ref)
+        last_ref = ref
+
+    return root_ref, first_chain, second_chain
+
+
+@pytest.fixture
+def random_system():
+    """
+    Generates a system of five linked References with random positions and
+    rotations. Returns the references in a list in ascending order.
+    """
+    # Create root reference
+    position = np.array([0, 0, 0])
+    rotation = Rotation.from_matrix(np.identity(3))
+    root_ref = reference.CartesianReference(position, rotation, None)
+
+    # Create other four references
+    last_ref = root_ref
+    ref_list = [root_ref]
+    for i in range(4):
+        position = np.random.rand(3)
+        rotation = Rotation.from_matrix(np.random.rand(3, 3))
+        ref = reference.CartesianReference(position, rotation, last_ref)
+
+        ref_list.append(ref)
+        last_ref = ref
+
+    return ref_list
+
+
+@pytest.fixture
 def root_reference():
     """
     Creates a random root reference.
@@ -48,30 +109,6 @@ def system_set_static():
 
     return root_ref, first_ref, second_ref, third_ref, fourth_ref
 
-
-@pytest.fixture
-def random_system():
-    """
-    Generates a system of five linked References with random positions and
-    rotations. Returns the references in a list in ascending order.
-    """
-    # Create root reference
-    position = np.array([0, 0, 0])
-    rotation = Rotation.from_matrix(np.identity(3))
-    root_ref = reference.CartesianReference(position, rotation, None)
-
-    # Create other four references
-    last_ref = root_ref
-    ref_list = [root_ref]
-    for i in range(4):
-        position = np.random.rand(3)
-        rotation = Rotation.from_matrix(np.random.rand(3, 3))
-        ref = reference.CartesianReference(position, rotation, last_ref)
-
-        ref_list.append(ref)
-        last_ref = ref
-
-    return ref_list
 
 
 class TestReference:
@@ -276,3 +313,19 @@ class TestCartesianReference:
         reverted = last.root_transform_from(transformed)
 
         assert np.allclose(reverted, vector, 1e-12)
+
+    def test_transform_to(self, random_split_system):
+        """
+        Test the CartesianReference.transform_to method. This relies on the
+        validity of the .root_transform_from and .root_transform_to methods.
+        """
+        # root = random_split_system[0]  not needed just for clarity
+        chain_1 = random_split_system[1][-1]
+        chain_2 = random_split_system[2][-1]
+
+        vector = np.random.rand(3)
+        root_vector = chain_1.root_transform_from(vector)
+        final_vector = chain_2.root_transform_to(root_vector)
+
+        assert np.allclose(chain_2.transform_to(vector, chain_1), final_vector,
+                           1e-12)
