@@ -1,17 +1,32 @@
 from ammp.physics import bodies
 
-import random
 import numpy as np
+import pytest
+from ammp.physics.reference import CartesianReference
+from scipy.spatial.transform import Rotation
 
 
-def test_rigidbody_constructor():
+@pytest.fixture
+def root_reference():
+    """
+    Creates a root reference at [0, 0, 0] and no rotation
+    """
+    position = np.array([0, 0, 0])
+    rotation = Rotation.from_matrix(np.identity(3))
+    reference = CartesianReference(position, rotation, None)
+
+    return reference
+
+
+def test_rigidbody_constructor(root_reference):
     """
     Test the constructor for the bodies class.
-    :return: None
     """
-    position = np.array([random.random() for i in range(3)])
-    rotation = np.array([random.random() for i in range(3)])
-    body = bodies.Rigidbody(position, rotation)
+    position = np.random.rand(3)
+    rotation = Rotation.from_matrix(np.random.rand(3, 3))
 
-    assert (body.position == position).all()
-    assert (body.rotation == rotation).all()
+    body = bodies.Rigidbody(position, rotation, root_reference)
+
+    assert np.allclose(body.position, position, 1e-12)
+    assert body.rotation == rotation
+    assert body.reference == root_reference
