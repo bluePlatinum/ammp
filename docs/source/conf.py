@@ -17,7 +17,7 @@ sys.path.insert(0, os.path.abspath('../../'))
 
 # -- Import version from module
 
-from ammp import __version__
+from ammp import __version__        # noqa: E402
 
 
 # -- Project information -----------------------------------------------------

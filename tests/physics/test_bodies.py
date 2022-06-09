@@ -13,5 +13,5 @@ def test_rigidbody_constructor():
     rotation = np.array([random.random() for i in range(3)])
     body = bodies.Rigidbody(position, rotation)
 
-    assert body.position.all() == position.all()
-    assert body.rotation.all() == rotation.all()
+    assert (body.position == position).all()
+    assert (body.rotation == rotation).all()
