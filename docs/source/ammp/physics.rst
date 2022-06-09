@@ -14,6 +14,12 @@ Reference
 .. automodule:: ammp.physics.reference
     :members:
 
+-------
+Systems
+-------
+.. automodule:: ammp.physics.systems
+    :members:
+
 ----
 Util
 ----
