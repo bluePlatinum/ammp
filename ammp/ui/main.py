@@ -1,5 +1,5 @@
 import sys
-from ammp.ui.greet_dialog import GreetDialog
+from ammp.ui.greetDialog import GreetDialog
 from PyQt5.QtWidgets import QApplication
 
 

@@ -24,8 +24,8 @@ class GreetDialog(QDialog):
         layout = QVBoxLayout()
 
         # First button (currently just named 1, will change with function)
-        btn_1 = QPushButton('Test 1')
-        layout.addWidget(btn_1)
+        systemViewerButton = QPushButton('System Viewer')
+        layout.addWidget(systemViewerButton)
 
         # Second button (currently just named 2, will change with function)
         btn_2 = QPushButton('Test 2')
@@ -37,3 +37,4 @@ class GreetDialog(QDialog):
         exitBtn.clicked.connect(self.close)
 
         self.setLayout(layout)
+
