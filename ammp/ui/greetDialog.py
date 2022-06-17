@@ -37,4 +37,3 @@ class GreetDialog(QDialog):
         exitBtn.clicked.connect(self.close)
 
         self.setLayout(layout)
-
