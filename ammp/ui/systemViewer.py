@@ -20,5 +20,9 @@ class SystemViewer(QMainWindow):
         self._createMenu()
 
     def _createMenu(self):
+        """
+        Creates the menu for the SystemViewer QMainWindow
+        :return: None
+        """
         self.menu = self.menuBar().addMenu('&Menu')
         self.menu.addAction('&Exit', self.close)

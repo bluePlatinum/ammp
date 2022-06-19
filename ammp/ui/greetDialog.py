@@ -43,6 +43,8 @@ class GreetDialog(QDialog):
     def openSystemViewer(self):
         """
         Opens the System viewer Widget, and closes the greeting dialog.
+
+        :return: None
         """
         self.hide()
         systemViewer = SystemViewer()
