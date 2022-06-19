@@ -12,6 +12,7 @@ Welcome to ammp's documentation!
 
    ammp/astronomical
    ammp/physics
+   ammp/ui
 
 
 
