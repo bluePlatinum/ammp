@@ -1,3 +1,4 @@
+from ammp.ui.systemViewer import SystemViewer
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtWidgets import QVBoxLayout
@@ -26,6 +27,7 @@ class GreetDialog(QDialog):
         # First button (currently just named 1, will change with function)
         systemViewerButton = QPushButton('System Viewer')
         layout.addWidget(systemViewerButton)
+        systemViewerButton.clicked.connect(self.openSystemViewer)
 
         # Second button (currently just named 2, will change with function)
         btn_2 = QPushButton('Test 2')
@@ -37,3 +39,12 @@ class GreetDialog(QDialog):
         exitBtn.clicked.connect(self.close)
 
         self.setLayout(layout)
+
+    def openSystemViewer(self):
+        """
+        Opens the System viewer Widget, and closes the greeting dialog.
+        """
+        self.hide()
+        systemViewer = SystemViewer()
+        self.parent().focusWidget = systemViewer
+        systemViewer.show()
