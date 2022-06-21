@@ -21,3 +21,5 @@ class TestMainWidget:
 
         assert widget.parent() == parent
         assert widget.currentFocus == focus
+
+        app.exit()
