@@ -2,3 +2,4 @@
 per-file-ignores =
     # ignore PEP8 naming in favor of Qt naming style for ui elements
     ./ammp/ui/*: N802, N806
+    ./tests/ui/*: N802, N806
