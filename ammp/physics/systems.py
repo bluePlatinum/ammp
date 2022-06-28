@@ -1,3 +1,25 @@
+class System:
+    """
+    The parent class for all systems.
+    """
+    def __init__(self):
+        """
+        Constructor method
+        """
+        pass
+
+    def draw_sv(self, sv_graphic):
+        """
+        This method draws the system for the SystemViewerGraphic QWidget.
+        It needs to be specifically implemented by the child classes.
+
+
+        :param sv_graphic: the SystemViewerGrapic QWidget
+        :type sv_graphic: SystemViewerGraphic
+        :return: None
+        """
+        msg = 'The draw_sv method was not implemented by the child class.'
+        raise NotImplementedError(msg)
 
 
 class SystemDisplay:

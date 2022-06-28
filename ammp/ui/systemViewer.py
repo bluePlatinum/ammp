@@ -57,7 +57,7 @@ class SystemViewer(QMainWindow):
         figure = SystemViewerGraphic(parent=self, width=5, height=4, dpi=100)
 
         try:
-            system.draw_sv()
+            system.draw_sv(figure)
         except NotImplementedError:
             msg = ".draw_sv() method was not implemented."
             print(msg)
