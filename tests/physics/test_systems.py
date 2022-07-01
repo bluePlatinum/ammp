@@ -38,7 +38,7 @@ class TestSystem:
         """
         Test the constructor
         """
-        system = systems.System()
+        system = systems.System()   # noqa: F841
 
         # nothing to test here (just for completeness)
         assert True
