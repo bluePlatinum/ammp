@@ -26,6 +26,8 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
+        # xvfb, x11-utils, libxkbcommon-x11-0 needed for Qt
+        sudo apt install -y xvfb x11-utils libxkbcommon-x11-0
         python -m pip install --upgrade pip
         python -m pip install flake8 pytest
         pip install -r ./ammp/requirements.txt
@@ -37,5 +39,8 @@ jobs:
         # Lint according to PEP8
         flake8 . --count --max-complexity=10 --max-line-length=79 --statistics
     - name: Test with pytest
+      env:
+        QT_DEBUG_PLUGINS: 1
       run: |
-        pytest -v --tb=long
+        ulimit -c unlimited
+        sudo catchsegv xvfb-run --auto-servernum pytest
