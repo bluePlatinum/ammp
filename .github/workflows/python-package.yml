@@ -28,7 +28,6 @@ jobs:
       run: |
         sudo apt update
         sudo apt install -y libxcb-xinerama0 xvfb x11-utils libxkbcommon-x11-0 libxkbcommon-x11-0 
-        sudo apt install -y pyqt5
         python -m pip install --upgrade pip
         python -m pip install flake8 pytest
         pip install -r ./ammp/requirements.txt
