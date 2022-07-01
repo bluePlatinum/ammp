@@ -5,9 +5,9 @@ name: Python package
 
 on:
   push:
-    branches: [ main, dev/* ]
+    branches: [ main, dev/*, debug/* ]
   pull_request:
-    branches: [ main, dev/* ]
+    branches: [ main, dev/*, debug/* ]
 
 jobs:
   build:
@@ -38,4 +38,4 @@ jobs:
         flake8 . --count --max-complexity=10 --max-line-length=79 --statistics
     - name: Test with pytest
       run: |
-        pytest
+        pytest -v --fixtures --tb=long -l
