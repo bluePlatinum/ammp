@@ -38,4 +38,4 @@ jobs:
         flake8 . --count --max-complexity=10 --max-line-length=79 --statistics
     - name: Test with pytest
       run: |
-        pytest -v --fixtures -l
+        pytest -v --tb=long
