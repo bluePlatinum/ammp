@@ -5,9 +5,9 @@ name: Python package
 
 on:
   push:
-    branches: [ main, dev/*, debug/* ]
+    branches: [ main, dev/* ]
   pull_request:
-    branches: [ main, dev/*, debug/* ]
+    branches: [ main, dev/* ]
 
 jobs:
   build:
@@ -39,7 +39,8 @@ jobs:
         # Lint according to PEP8
         flake8 . --count --max-complexity=10 --max-line-length=79 --statistics
     - name: Test with pytest
-      env:
-        QT_DEBUG_PLUGINS: 1
+      # If Qt has problems enable this for debug info
+      # env:
+      #   QT_DEBUG_PLUGINS: 1
       run: |
         xvfb-run pytest -sv
