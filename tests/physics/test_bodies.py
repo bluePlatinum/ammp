@@ -18,15 +18,37 @@ def root_reference():
     return reference
 
 
-def test_rigidbody_constructor(root_reference):
+class TestRigidbody:
     """
-    Test the constructor for the bodies class.
+    Tests for the Rigidbody class.
     """
-    position = np.random.rand(3)
-    rotation = Rotation.from_matrix(np.random.rand(3, 3))
+    def test_constructor(self, root_reference):
+        """
+        Test the constructor for the bodies class.
+        """
+        position = np.random.rand(3)
+        rotation = Rotation.from_matrix(np.random.rand(3, 3))
 
-    body = bodies.Rigidbody(position, rotation, root_reference)
+        body = bodies.Rigidbody(position, rotation, root_reference)
 
-    assert np.allclose(body.position, position, 1e-12)
-    assert body.rotation == rotation
-    assert body.reference == root_reference
+        assert np.allclose(body.position, position, 1e-12)
+        assert body.rotation == rotation
+        assert body.reference == root_reference
+
+
+class TestSphericalBody:
+    """
+    Tests for the SphericalBody class.
+    """
+    def test_constructor(self, root_reference):
+        """
+        Test the constructor for the SphericalBody class
+        """
+        position = np.random.rand(3)
+        rotation = Rotation.from_matrix(np.random.rand(3, 3))
+
+        body = bodies.Rigidbody(position, rotation, root_reference)
+
+        assert np.allclose(body.position, position, 1e-12)
+        assert body.rotation == rotation
+        assert body.reference == root_reference
