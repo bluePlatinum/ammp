@@ -5,6 +5,10 @@ import pytest
 from scipy.spatial.transform import Rotation
 
 
+def test_fails():
+    assert False
+
+
 @pytest.fixture
 def random_split_system():
     """
