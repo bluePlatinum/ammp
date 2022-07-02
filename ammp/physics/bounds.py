@@ -18,3 +18,23 @@ class BoundingSphere:
         self.position = position
         self.radius = radius
         self.reference = reference
+
+
+class BoundingBox:
+    """
+    Holds information about a bounding box.
+
+    :param vertices: A list of vertices defining the box. Imagine a cube, then
+        0-3 represent the lower 4 vertices and 4-7 the upper 4. Furthermore,
+        the vertices are arranged in ascending order when going
+        counterclockwise on the top or bottom surfaces.
+    :type vertices: list[numpy.ndarray]
+    :param reference: the reference in which te vertices are defined
+    :type reference: ammp.reference.Reference
+    """
+    def __init__(self, vertices, reference):
+        """
+        Constructor method
+        """
+        self.vertices = vertices
+        self.reference = reference

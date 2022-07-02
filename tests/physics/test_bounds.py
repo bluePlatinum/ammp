@@ -1,4 +1,4 @@
-from ammp.physics.bounds import BoundingSphere
+from ammp.physics.bounds import BoundingBox, BoundingSphere
 
 import numpy as np
 import pytest
@@ -36,3 +36,21 @@ class TestBoundingSphere:
         assert np.allclose(bounding_sphere.position, position, 1e-12)
         assert bounding_sphere.radius == radius
         assert bounding_sphere.reference == reference
+
+
+class TestBoundingBox:
+    """
+    Tests for the BoundingBox class
+    """
+    def test_constructor(self, root_reference):
+        """
+        Test the constructor for the BoundingSphere class
+        """
+        vertices = [np.random.rand(3) for i in range(6)]
+        reference = root_reference
+
+        bounding_box = BoundingBox(vertices, reference)
+
+        assert all([np.allclose(x, y) for x, y in
+                    zip(bounding_box.vertices, vertices)])
+        assert bounding_box.reference == reference
