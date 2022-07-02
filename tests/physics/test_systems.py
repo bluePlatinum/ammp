@@ -38,17 +38,18 @@ class TestSystem:
         """
         Test the constructor
         """
-        system = systems.System()
+        system = systems.System()   # noqa: F841
 
         # nothing to test here (just for completeness)
         assert True
 
-    def test_draw_sv(self):
+    def test_draw_sv(self, qtbot):
         """
         Test the draw_sv method.
         """
         system = systems.System()
         sv_graphic = SystemViewerGraphic()
+        qtbot.addWidget(sv_graphic)
 
         with pytest.raises(NotImplementedError):
             system.draw_sv(sv_graphic)
