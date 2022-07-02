@@ -43,4 +43,5 @@ jobs:
       env:
         QT_DEBUG_PLUGINS: 1
       run: |
+        sudo apt install -y libxkbcommon-x11-0 x11-utils
         pytest -sv
