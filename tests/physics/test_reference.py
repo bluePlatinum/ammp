@@ -132,7 +132,7 @@ class TestReference:
         rotation = Rotation.from_matrix(np.random.rand(3, 3))
         ref = reference.Reference(position, rotation, root_reference)
 
-        with pytest.raises(ValueError):
+        with pytest.raises(NotImplementedError):
             ref.ref_transform_from(np.random.rand(3))
 
     def test_ref_tranform_to(self, root_reference):
@@ -144,7 +144,7 @@ class TestReference:
         rotation = Rotation.from_matrix(np.random.rand(3, 3))
         ref = reference.Reference(position, rotation, root_reference)
 
-        with pytest.raises(ValueError):
+        with pytest.raises(NotImplementedError):
             ref.ref_transform_to(np.random.rand(3))
 
 
