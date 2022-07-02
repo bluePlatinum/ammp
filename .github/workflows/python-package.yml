@@ -28,7 +28,7 @@ jobs:
       run: |
         sudo apt update
         # sudo apt install -y libxcb-xinerama0 xvfb x11-utils libxkbcommon-x11-0 libxkbcommon-x11-0 
-        sudo apt-get install -y 'libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev
+        sudo apt-get install -y 'libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev xvfb
         python -m pip install --upgrade pip
         python -m pip install flake8 pytest
         pip install -r ./ammp/requirements.txt
@@ -44,4 +44,4 @@ jobs:
         QT_DEBUG_PLUGINS: 1
       run: |
         sudo apt install -y libxkbcommon-x11-0 x11-utils
-        pytest -sv
+        xvfb-run pytest -sv
