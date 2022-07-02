@@ -30,7 +30,7 @@ class Reference:
         error_msg = 'The method was not overwritten by the Reference child ' \
                     'class. Therefore it is imposible to determine' \
                     'the transformation correctly.'
-        raise ValueError(error_msg)
+        raise NotImplementedError(error_msg)
 
     def ref_transform_to(self, vector):
         """
@@ -39,7 +39,7 @@ class Reference:
         error_msg = 'The method was not overwritten by the Reference child ' \
                     'class. Therefore it is imposible to determine' \
                     'the transformation correctly.'
-        raise ValueError(error_msg)
+        raise NotImplementedError(error_msg)
 
     def root_transform_from(self, vector):
         """
