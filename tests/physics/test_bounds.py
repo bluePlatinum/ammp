@@ -76,7 +76,7 @@ class TestBoundingBox:
         """
         Test the constructor for the BoundingSphere class
         """
-        vertices = [np.random.rand(3) for i in range(6)]
+        vertices = [np.random.rand(3) for _ in range(6)]
         reference = root_reference
 
         bounding_box = BoundingBox(vertices, reference)
