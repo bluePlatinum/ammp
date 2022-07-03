@@ -1,3 +1,4 @@
+import numpy as np
 
 
 class BoundingSphere:
@@ -38,3 +39,18 @@ class BoundingBox:
         """
         self.vertices = vertices
         self.reference = reference
+
+    def center(self):
+        """
+        Returns the center of the BoundingBox. This is calculated by using
+        the Center of Mass equation and just weighing every vertex identically
+        with m=1.
+
+        :return: the center of the bounding box in the self.reference reference
+        :rtype: numpy.ndarray
+        """
+        center_point = np.array([0., 0., 0.])
+        for vertex in self.vertices:
+            center_point += vertex
+        center_point = center_point / len(self.vertices)
+        return center_point
