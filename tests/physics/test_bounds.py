@@ -85,14 +85,19 @@ class TestBoundingBox:
                     zip(bounding_box.vertices, vertices)])
         assert bounding_box.reference == reference
 
-    def test_center_static(self, generic_bounding_box):
+    def test_bounding_sphere_center_static(self, generic_bounding_box):
         """
-        Test the .center() method with static values.
+        Test the .bounding_sphere_center method with static values.
         """
         bounding_box = generic_bounding_box['BoundingBox']
         center = generic_bounding_box['center']
 
-        assert np.allclose(bounding_box.center(), center, 1e-12)
+        radius = np.sqrt(0.5**2 + 1.5**2 + 0.5**2)
+
+        bounding_sphere = bounding_box.bounding_sphere_center()
+
+        assert np.allclose(bounding_sphere.position, center, 1e-12)
+        assert np.isclose(bounding_sphere.radius, radius, rtol=1e-12)
 
     def test_center_random(self, root_reference):
         """
@@ -116,5 +121,14 @@ class TestBoundingBox:
 
         print('t')
         print('t')
+
+        assert np.allclose(bounding_box.center(), center, 1e-12)
+
+    def test_center_static(self, generic_bounding_box):
+        """
+        Test the .center() method with static values.
+        """
+        bounding_box = generic_bounding_box['BoundingBox']
+        center = generic_bounding_box['center']
 
         assert np.allclose(bounding_box.center(), center, 1e-12)

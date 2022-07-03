@@ -40,6 +40,24 @@ class BoundingBox:
         self.vertices = vertices
         self.reference = reference
 
+    def bounding_sphere_center(self):
+        """
+        Returns a bounding sphere, which contains all the vertices of the
+        bounding box, with the center of the sphere at the center of the
+        bounding box.
+
+        :return: a bounding sphere with concentrical with the bounding box
+        :rtype: BoundingSphere
+        """
+        center = self.center()
+        radius = 0
+        for vertex in self.vertices:
+            vector = vertex - center
+            if np.linalg.norm(vector) > radius:
+                radius = np.linalg.norm(vector)
+
+        return BoundingSphere(center, radius, self.reference)
+
     def center(self):
         """
         Returns the center of the BoundingBox. This is calculated by using
